@@ -1,11 +1,11 @@
 require 'bundler'
 require 'sinatra'
-Bundle.require
+Bundler.require
 
 enable :sessions
 
-Activerecord::Base.establish_connection(
-  :adapter  => 'postgresql'
+ActiveRecord::Base.establish_connection(
+  :adapter  => 'postgresql',
   :database => 'build_an_app'
 )
 
@@ -14,6 +14,10 @@ Activerecord::Base.establish_connection(
 
 not_found do
   erb :notfound
+end
+
+get '/' do
+  erb :index
 end
 
 get '/account_home' do
