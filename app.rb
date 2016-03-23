@@ -36,9 +36,21 @@ get '/login_register' do
 end
 
 post '/login_register/create' do
-  @
+  @new_account                = Account.new
+  @new_account.username       = params[:username]
+  @new_account.user_email     = params[:user_email]
+  @new_account.password_hash  = params[:password_hash]
+  @new_account.first_name     = params[:first_name]
+  @new_account.last_name      = params[:last_name]
+  @new_account.save
+  @header_message = "Thank youuuuuu for loggggging in!"
+  redirect '/account_home'
 end
 
 post '/login_register/login' do
-
+  @all_users = Account.all
+  @all_users.each do |user|
+    p user.to_s
+  end
+  redirect '/'
 end
