@@ -1,7 +1,8 @@
 require 'bundler'
-require 'sinatra'
 Bundler.require
 
+require 'bcrypt'
+require 'sinatra'
 enable :sessions
 
 ActiveRecord::Base.establish_connection(
@@ -9,6 +10,7 @@ ActiveRecord::Base.establish_connection(
   :database => 'build_an_app'
 )
 
+c = Colorize.new
 @header_message    = ""
 @is_user_logged_in = false
 
@@ -17,9 +19,13 @@ not_found do
 end
 
 get '/' do
+  c.log(:aliceblue, '<------ Base Resource Loaded ---->')
   erb :index
 end
 
+# -----------------------------
+# Account controller
+# -----------------------------
 get '/account_home' do
   @header_message = "Welcome"
   erb :account_home
@@ -43,6 +49,7 @@ post '/login_register/create' do
   @new_account.first_name     = params[:first_name]
   @new_account.last_name      = params[:last_name]
   @new_account.save
+  c.log(:aliceblue, params)
   @header_message = "Thank youuuuuu for loggggging in!"
   redirect '/account_home'
 end
@@ -50,7 +57,34 @@ end
 post '/login_register/login' do
   @all_users = Account.all
   @all_users.each do |user|
-    p user.to_s
+    c.log(:yellow, user.to_s)
   end
   redirect '/'
+end
+
+
+post '/account_home/update' do
+  @all_users = Account.all
+  @all_users.each do |user|
+  c.log(:yellow, user.to_s)
+  end
+  redirect '/account_home'
+end
+
+# -----------------------------
+# Another controller
+# -----------------------------
+
+get '/something' do
+  @header_message = "Phil - remember to replace the text here"
+  erb :account_update
+end
+
+# -----------------------------
+# Something controller
+# -----------------------------
+
+get '/another' do
+  @header_message = "Jack - rememmmber to replace teh txt hereee. DIS IS CRUCIIICAL"
+  erb :login_register
 end
