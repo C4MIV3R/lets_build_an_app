@@ -34,3 +34,11 @@ get '/login_register' do
   @header_message = "Welcome back. Please enter your security credentials."
   erb :login_register
 end
+
+post '/login_register/create' do
+  @
+end
+
+post '/login_register/login' do
+
+end
